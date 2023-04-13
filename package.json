@@ -1,0 +1,24 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "chat do cimol",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NicolasCareca/Chat.git"
+  },
+  "keywords": [
+    "chat",
+    "cimol",
+    "mensagem"
+  ],
+  "author": "nicolas morschel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NicolasCareca/Chat/issues"
+  },
+  "homepage": "https://github.com/NicolasCareca/Chat#readme"
+}
