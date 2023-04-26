@@ -4,6 +4,7 @@
   "description": "chat do cimol",
   "main": "index.js",
   "scripts": {
+    "start": "node bin/server.js",
     "test": "npm test"
   },
   "repository": {
@@ -20,5 +21,10 @@
   "bugs": {
     "url": "https://github.com/NicolasCareca/Chat/issues"
   },
-  "homepage": "https://github.com/NicolasCareca/Chat#readme"
+  "homepage": "https://github.com/NicolasCareca/Chat#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongodb": "^5.3.0"
+  }
 }
