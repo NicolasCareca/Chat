@@ -16,7 +16,7 @@ app.use('/',router.get('/sobre', (req, res)=>{
     })
 }))
 
-app.use('/salas',router.get('/salas', async (req, res, next)=>{
+app.use('/sala',router.get('/sala', async (req, res, next)=>{
     const salaController = require("./controllers/salaController");
     let resp = await salaController.get();
     res.status(200).send(resp);
