@@ -13,9 +13,9 @@ const checkToken = async (token, id, key) => {
   };
 
 const setToken = async (id, key) => {
-    console.log(id);
+    console.log("id: "+id);
     if(id){
-        return jwt.sign({id }, key, { expiresIn: 28000});
+        return jwt.sign({id}, key, { expiresIn: 28000});
     }
     return false;
 };
