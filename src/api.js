@@ -1,51 +1,59 @@
 var express = require("express");
 var app = express();
-const usuarioController = require('./controllers/usuarioController');
-const salaController = require('./controllers/salaController');
-const token = require("./util/token");
-app.use(express.urlencoded({extended : true}));
+const usuarioController = require("./controller/usuarioController");
+const salaController = require("./controller/salaController");
+const tokenUtil = require("./util/token");
 app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
 
 const router = express.Router();
-app.use('/', router.get('/', (req, res, next) => {
-    res.status(200).send("<h1>API CHAT<h1>");
-}));
 
-app.use("/",router.get("/sobre", (req, res, next) => {
-    res.status(200).send({
-        "nome":"API - CHAT",
-        "versão":"0.1.0",
-        "autor":"nicolas morschel"
+app.use('/', router.get('/', (req, res,next) => {
+    res.send("API OK");
+    }));
+
+app.use('/',router.get('/sobre' , (req, res,next) => { 
+    res.send({
+        "nome":"API Chat",
+        "versao":"1.0.0",
+        "author":"nicolas morschel"
     });
-}));
+    }));
 
-app.use('/entrar',router.post('/entrar',async(req, res, next)=>{
+app.use('/entrar', router.post('/entrar', async (req, res,next) => {
     let resp = await usuarioController.entrar(req.body.nick);
-    res.status(200).send(resp);
-}));
-
-app.use("/sala",router.get("/sala", async (req, res, next) => {
-    if(await token.checkToken(req.headers.token, req.headers.iduser, req.headers.nick))
-    {
-        let resp = await salaController.get();
-        res.status(200).send(resp);
+    if(resp){
+        res.send(resp);
     }else{
-        res.status(400).send({mensagem:"Não Autorizado!!"});
+        res.send({"msg":"erro"});
     }
-}))
-
-app.use('/sala/entrar',router.get('/sala/entrar', async(req, res)=>{
-    if(await token.checkToken(req.headers.token, req.headers.iduser, req.headers.nick))
-        return false;
-    let resp = await salaController.entrar(req.header.iduser, req.query.idsala);
-    req.status(200).send(resp);
 }));
 
-app.use("/sala/mensagem", router.post("/sala/mensagem", async (req, res) => {
-    if(!token.checkToken(req.headers.token,req.headers.iduser,req.headers.nick))
-    return false;
-    let resp = await salaController.enviarMensagem(req.headers.nick,req.body.mensagem,req.body.idSala);
-    res.status(200).send(resp);
-}))
+app.use('/salas', router.get('/salas', async (req, res,next) => {
+    if(await tokenUtil.checktoken(req.headers.token, req.headers.idUser, req.headers.timestamp)){
+        let resp = await salaController.get();
+        res.send(resp);
+    }else{
+        res.send({"msg":"erro, não autenticado"});
+    }
+}));
 
-module.exports=app;
+app.use('/salas/entrar', router.get('/salas/entrar', async (req, res,next) => {
+    if(await tokenUtil.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
+        return false;
+
+        let resp = await salaController.entrar(req.headers.idUser, req.query.idSala);
+        req.send(resp);
+}));
+
+app.use('/sala/mensagens', router.get('/sala/mensagens', async (req, res,next) => {
+    if(!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
+        return false;
+
+        let resp = await salaController.buscarMensagens(req.query.idSala, req.query.timestamp);
+        req.send(resp);
+}));
+        
+    module.exports = app;

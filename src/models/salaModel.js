@@ -1,30 +1,30 @@
 const db = require("./db");
 
 let buscarSala= async(idsala)=>{
-    return db.findOne("sala", idsala);
+    return db.findOne("sala", {_id: idsala});
 }
 
-let listarSala = async ()=>{
-    let sala = await db.findAll("sala");
+let listarSala = async()=>{
+    let sala = await db.findAll('sala');
     return sala;
 }
 
 let atualizarMensagens = async (sala) => {
-    return await db.updateOne("sala", sala,{_id:sala.id});
+    return await db.updateOne("sala", sala,{_id:sala._id});
 }
 
-let buscarMensagens = async (idsala, timestamp)=>{
+let buscarMensagens = async (idsala,timestamp)=>{
     let sala = await buscarSala(idsala);
-    if(sala.mensagem){
-        let mensagem=[];
-        sala.mensagem.forEach((mensagem)=>{
-            if(mensagem.timestamp >= timestamp){
-                mensagem.push(mensagem);
+    if(sala.msgs){
+        let msgs =[];
+        sala.msgs.forEach((msg)=>{
+            if(msg.timestamp >= timestamp){
+                msgs.push(msg);
             }
         });
-        return mensagem;
+        return msgs;
     }
     return [];
 }
 
-module.exports = {buscarSala, listarSala, atualizarMensagens, buscarMensagens}
+module.exports = {listarSala, atualizarMensagens, buscarMensagens, buscarSala};
