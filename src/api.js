@@ -1,7 +1,7 @@
 var express = require("express");
 var app = express();
-const usuarioController = require("./controller/usuarioController");
-const salaController = require("./controller/salaController");
+const usuarioController = require("./controllers/usuarioController");
+const salaController = require("./controllers/salaController");
 const tokenUtil = require("./util/token");
 app.use(express.json());
 app.use(express.urlencoded({
@@ -31,7 +31,7 @@ app.use('/entrar', router.post('/entrar', async (req, res,next) => {
     }
 }));
 
-app.use('/salas', router.get('/salas', async (req, res,next) => {
+app.use('/sala', router.get('/sala', async (req, res,next) => {
     if(await tokenUtil.checktoken(req.headers.token, req.headers.idUser, req.headers.timestamp)){
         let resp = await salaController.get();
         res.send(resp);
@@ -40,7 +40,7 @@ app.use('/salas', router.get('/salas', async (req, res,next) => {
     }
 }));
 
-app.use('/salas/entrar', router.get('/salas/entrar', async (req, res,next) => {
+app.use('/sala/entrar', router.get('/sala/entrar', async (req, res,next) => {
     if(await tokenUtil.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
         return false;
 
