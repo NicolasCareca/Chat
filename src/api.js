@@ -11,7 +11,7 @@ app.use(express.urlencoded({
 const router = express.Router();
 
 app.use('/', router.get('/', (req, res,next) => {
-    res.send("API OK");
+    res.send("API CHAT");
     }));
 
 app.use('/',router.get('/sobre' , (req, res,next) => { 
@@ -31,7 +31,7 @@ app.use('/entrar', router.post('/entrar', async (req, res,next) => {
     }
 }));
 
-app.use('/sala', router.get('/sala', async (req, res,next) => {
+app.use('/salas', router.get('/salas', async (req, res,next) => {
     if(await tokenUtil.checktoken(req.headers.token, req.headers.idUser, req.headers.timestamp)){
         let resp = await salaController.get();
         res.send(resp);
