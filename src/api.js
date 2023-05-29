@@ -40,7 +40,7 @@ app.use('/salas', router.get('/salas', async (req, res,next) => {
     }
 }));
 
-app.use('/sala/entrar', router.get('/sala/entrar', async (req, res,next) => {
+app.use('/salas/entrar', router.get('/salas/entrar', async (req, res,next) => {
     if(await tokenUtil.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
         return false;
 
@@ -48,7 +48,7 @@ app.use('/sala/entrar', router.get('/sala/entrar', async (req, res,next) => {
         req.send(resp);
 }));
 
-app.use('/sala/mensagens', router.get('/sala/mensagens', async (req, res,next) => {
+app.use('/salas/mensagens', router.get('/salas/mensagens', async (req, res,next) => {
     if(!token.checktoken(req.headers.token, req.headers.iduser, req.headers.nick))
         return false;
 
